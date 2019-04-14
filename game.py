@@ -1,17 +1,17 @@
 import random
 
 class Game:
-    def __init__(self, num_lucifers):
-        self.num_lucifers = num_lucifers
-        self.lucifers = num_lucifers
-        self.drink_chance = 0.5
+    def __init__(self, num_matches):
+        self.num_matches = num_matches
+        self.matches = num_matches
+        self.drink_chance = 0.3
 
     def reset_game(self):
-        self.lucifers = self.num_lucifers
+        self.matches = self.num_matches
 
     def print_game(self):
-        print("Number of lucifers:", self.lucifers)
-        print("| " * self.lucifers,"\n")
+        print("Number of matches:", self.matches)
+        print("| " * self.matches,"\n")
 
     def verify_move(self, number):
         if len(number) != 1:
@@ -23,35 +23,35 @@ class Game:
 
         if number < 1 or number > 3:
             return False
-        if number > self.lucifers:
+        if number > self.matches:
             return False
 
         return True
 
-    def take_lucifers(self):
-        number = input("Take 1-3 lucifers:")
+    def take_matches(self):
+        number = input("Take 1-3 matches:")
 
         if not self.verify_move(number):
             print("Invalid move!")
-            return self.take_lucifers()
+            return self.take_matches()
         else:
             number = int(number)
-            self.lucifers -= number
+            self.matches -= number
 
     def computer_turn(self):
-        number = (self.lucifers - 1) % 4
+        number = (self.matches - 1) % 4
         if number == 0:
             number = random.randint(1, 3)
 
-        self.lucifers -= number
-        print("Computer took", number, "lucifers")
+        self.matches -= number
+        print("Computer took", number, "matches")
 
     def drink(self):
         if random.random() < self.drink_chance:
             print("DRINK!")
             input("Press any key to continue")
 
-        self.drink_chance += 0.025
+        self.drink_chance += 0.05
 
 
 def main():
@@ -61,15 +61,15 @@ def main():
         game.reset_game()
         while True:
             game.print_game()
-            game.take_lucifers()
+            game.take_matches()
 
-            if game.lucifers == 1:
+            if game.matches == 1:
                 game.print_game()
                 print("You won!")
                 won = True
                 break
 
-            if game.lucifers == 0:
+            if game.matches == 0:
                 print("You lost!")
                 game.drink()
                 break
